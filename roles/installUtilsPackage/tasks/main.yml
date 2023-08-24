@@ -1,0 +1,27 @@
+---
+# tasks file for installUtilsPackage
+  - name: "Installing java versions 11 && 17 + maven, php with apt"
+    apt:
+      name:
+        - openjdk-17-jre
+        - openjdk-17-jdk
+        - openjdk-11-jre
+        - openjdk-11-jdk
+        - maven
+        - php
+    become: true
+    become_method: sudo
+
+  - name: "Installing git, pip, vim, fzf, nmap, socat"
+    apt:
+      name:
+       - git
+       - vim
+       - fzf
+       - python3-pip
+       - nmap
+       - socat
+       - bat
+      state: latest
+    become: true
+    become_method: sudo

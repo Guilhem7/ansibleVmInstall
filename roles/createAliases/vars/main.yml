@@ -1,0 +1,20 @@
+---
+# vars file for createAliases
+source_file: "{{ ansible_env.HOME }}/.{{ ansible_env.SHELL.split('/')[-1] }}rc"
+bash_aliases:
+  - { alias: 'c', command: 'clear'}
+  - { alias: '..', command: 'cd ..'}
+  - { alias: '...', command: 'cd ../..'}
+  - { alias: 'ipa', command: 'ip -br -c a' }
+  - { alias: 'myip', command: 'curl ipconfig.io' }
+  - { alias: 'bat', command: 'batcat -n --pager=''cat''' }
+
+bash_functions:
+  - { func_name: 'mkc', code: 'mkdir -p -- "$1" && cd -P -- "$_"'}
+  - { func_name: 'findDc', code: 'nslookup -type=SRV _ldap._tcp.dc._msdcs."$1"' }
+  - { func_name: 'to_str', code: "python3 -c \"import codecs; print(codecs.decode(\\\"$1\\\", 'hex'))\""}
+  - { func_name: 'ff', code: "find / -name \"$1\" 2>/dev/null"}
+
+bash_others:
+  - "# Adding path folder"
+  - 'PATH="$PATH:~/.local/bin"'
