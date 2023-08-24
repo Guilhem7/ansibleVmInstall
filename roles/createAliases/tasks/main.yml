@@ -1,0 +1,46 @@
+---
+# tasks file for createAliases
+  - name: "Add aliases in {{ source_file }}"
+    lineinfile:
+      dest: "test.aliases"
+      create: yes
+      mode: 0644
+      search_string: "alias {{ item.alias }}="
+      line: 'alias {{ item.alias }}="{{ item.command }}"'
+      insertafter: 'alias l='
+      state: present
+    loop: "{{ bash_aliases }}"
+
+  - name: "Add custom functions"
+#    lineinfile:
+#      dest: "test.aliases"
+#      create: yes
+#      mode: 0644
+#      search_string: "{{ item.func_name }}()"
+#      line: "{{ item.func_name }}() { {{ item.code }} }"
+#      state: present
+#    loop: "{{ bash_functions }}"
+    blockinfile:
+      path: "test.aliases"
+      create: yes
+      insertafter: "^alias {{ bash_aliases[-1].alias }}="
+      block: |
+              {% for item in bash_functions %}
+
+              {{ item.func_name }}() {
+                {{ item.code }}
+              }
+              {% endfor %}
+      marker: "# {mark} shell functions"
+      marker_begin: "Custom"
+      marker_end: "End"
+      state: present
+
+  - name: "Add others in bash"
+    lineinfile:
+      dest: "test.aliases"
+      create: yes
+      search_string: "{{ item }}"
+      line: "{{ item }}"
+      state: present
+    loop: "{{ bash_others }}"

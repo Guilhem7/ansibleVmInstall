@@ -1,0 +1,63 @@
+---
+# tasks file for installTools
+  - name: "Create tools directory"
+    file:
+      path: "~/tools/"
+      state: directory
+
+  - name: "Download ysoserial"
+    get_url:
+      url: "https://github.com/frohoff/ysoserial/releases/download/v0.0.6/ysoserial-all.jar"
+      dest: "~/tools"
+
+  - name: "Install JmxScanner via git"
+    git:
+      repo: "https://github.com/Guilhem7/JmxScanner"
+      dest: "~/tools/JmxScanner"
+  
+  - name: "Install git-dumper"
+    pip:
+      name:
+        - git-dumper
+
+  - name: "Directory for some tools"
+    file:
+      path: "{{ item }}"
+      state: directory
+    loop:
+      - "~/tools/chisel"
+      - "~/tools/remote-method-guesser"
+      - "~/tools/socat"
+
+  - name: "Download chisel"
+    get_url:
+      url: "https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz"
+      dest: "~/tools/chisel/chisel_amd64.gz"
+
+  - name: "Download linpeas"
+    get_url:
+      url: "https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh"
+      dest: "~/tools"
+
+  - name: "Download Remote method guesser"
+    get_url:
+      url: "https://github.com/qtc-de/remote-method-guesser/releases/download/v4.4.1/rmg-4.4.1-jar-with-dependencies.jar"
+      dest: "~/tools/remote-method-guesser/"
+
+  - name: "Download static socat"
+    get_url:
+      url: "https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat"
+      dest: "~/tools/socat/socat_linux_x64"
+ 
+  - name: "Add sublime-text repo"
+    apt_repository:
+      repo: "deb https://download.sublimetext.com/ apt/stable/"
+      state: present
+      filename: sublime
+
+  - name: "Install sublime-text"
+    apt:
+      state: latest
+      name: "sublime-text"
+    become: true
+    become_method: sudo

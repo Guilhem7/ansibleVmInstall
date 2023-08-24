@@ -1,0 +1,26 @@
+alias c="clear"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ipa="ip -br -c a"
+alias myip="curl ipconfig.io"
+# Custom shell functions
+
+mkc() {
+  mkdir -p -- "$1" && cd -P -- "$_"
+}
+
+findDc() {
+  nslookup -type=SRV _ldap._tcp.dc._msdcs."$1"
+}
+
+to_str() {
+  python3 -c "import codecs; print(codecs.decode(\"$1\", 'hex'))"
+}
+
+ff() {
+  find / -name "$1" 2>/dev/null
+}
+# End shell functions
+# Adding path folder
+PATH="$PATH:~/.local/bin"
+alias bat="batcat -n --pager='cat'"

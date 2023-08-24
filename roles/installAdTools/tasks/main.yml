@@ -1,0 +1,46 @@
+---
+# tasks file for installAdTools
+  - name: "Installing bloodhound && neo4j with apt"
+    apt:
+      name:
+        - bloodhound
+        - neo4j
+      state: latest
+    become: true
+    become_method: sudo
+
+  - name: "Installing Certipy"
+    pip:
+      name: certipy-ad
+      state: latest
+
+  - name: "Installing coercer"
+    pip:
+      name: coercer
+      state: latest
+
+  - name: "Installing crackmapexec with pipx"
+    community.general.pipx:
+      name: crackmapexec
+      state: latest
+
+  - name: "Installing Impacket with pipx"
+    community.general.pipx:
+      name: impacket
+      state: latest
+
+  - name: "Installing mitm6"
+    pip:
+      name: mitm6
+      state: latest
+
+  - name: "Installing swig (needed for DonPAPI) with apt"
+    apt:
+      name: swig
+    become: true
+    become_method: sudo
+
+  - name: "Installing DonPAPI"
+    community.general.pipx:
+      name: donpapi
+      state: latest
